@@ -1,0 +1,59 @@
+$(function(){
+//.btn__submitをクリックした時
+  $(".btn__submit").on("click",function(){
+//コンソールに名字と表示
+    console.log("名字");
+//コンソールにidがfamilynameのテキストボックスに入力された値を表示
+    console.log($("#family__name").val());
+//コンソールに名前と表示
+    console.log("名前");
+//コンソールにidがgiven__nameのテキストボックスに入力された値を表示
+    console.log($("#given__name").val());
+//コンソールに生年月日と表示
+    console.log("生年月日");
+//コンソールにname値がyearのセレクトボックスから選ばれた値を表示し、"年"を表示
+    console.log($('select[name="year"]').val() + "年" +
+//コンソールにname値がmonthのセレクトボックスから選ばれた値を表示し、"月"を表示
+      $('select[name="month"]').val() + "月" +
+//コンソールにname値がdayのセレクトボックスから選ばれた値を表示し、"日"を表示
+      $('select[name="day"]').val() + "日" );
+//コンソールに性別と表示
+    console.log("性別");
+//コンソールにname値がgenderのラジオボタンでチェックされた値を表示する。
+    console.log($('[name="gender"]:checked').val());
+//コンソールに職業と表示
+    console.log("職業");
+//コンソールにname値がworkのセレクトボックスから選ばれた値を表示する。
+    console.log($('select[name="work"]').val());
+//コンソールにアカウント名と表示
+    console.log("アカウント名");
+//コンソールにidがaccount__nameのテキストボックスに入力された値を表示
+    console.log($("#account__name").val());
+//コンソールにメールアドレスと表示
+    console.log("メールアドレス");
+//コンソールにidがemailのテキストボックスに入力された値を表示
+    console.log($("#email").val());
+//コンソールにパスワードと表示
+    console.log("パスワード");
+//コンソールにidがpasswordのテキストボックスに入力された値を表示
+    console.log($("#password").val());
+//コンソールに確認用パスワードと表示
+    console.log("確認用パスワード");
+//コンソールにidがduplication__passwordのテキストボックスに入力された値を表示
+    console.log($("#duplication__password").val());
+//コンソールに住所と表示
+    console.log("住所");
+//コンソールにidがaddressのテキストボックスに入力された値を表示
+    console.log($("#address").val());
+//コンソールに電話番号と表示
+    console.log("電話番号");
+//コンソールにidがtelのテキストボックスに入力された値を表示
+    console.log($("#tel").val());
+//コンソールに購買情報と表示
+    console.log("購買情報");
+//コンソールにidがsubscriptionのラジオボタンにチェックのある値を表示
+    $('[name="subscription"]:checked').map(function(){
+      console.log($(this).val())
+    });
+  });
+});

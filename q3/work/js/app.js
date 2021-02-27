@@ -1,0 +1,11 @@
+$(function(){
+//.drawer_buttonをクリックした時に
+  $(".drawer_button").on("click",function(){
+//.drawer_buttonに.activeを追加、削除する
+    $(this).toggleClass("active");
+//.drawer_bgを表示・非表示にする
+    $(".drawer_bg").fadeToggle();
+//.drawer_nav_wrapperに.openを追加、削除する
+    $(".drawer_nav_wrapper").toggleClass("open")
+  });
+});

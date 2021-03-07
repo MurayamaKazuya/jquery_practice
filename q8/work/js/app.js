@@ -1,19 +1,16 @@
 $(function(){
   //pageCountに1を格納
   let pageCount = 1;
-  //textを空にする
-      let text = "";
+  //inputWordを空にする
+  let inputWord = "";
 
 //search-btnクラスを持つ要素をクリックした時
   $(".search-btn").on("click",function(){
 //searchWordに入力フォームの内容を格納
-    let searchWord = $("#search-input").val();
-//searchWordがtextと一致するなら
-    searchWord == text ?
-//pageCountに+1する
-    pageCount++ :
-//一致しなければlistsクラスをもつ要素の中身を空にしてtextにsearchWordの値を代入する
-　　($(".lists").empty(),text = searchWord);
+    const searchWord = $("#search-input").val();
+/*searchWordがinputWordと一致するならpageCountに+1し、一致しなければ
+listsクラスをもつ要素の中身を空にしてinputWordにsearchWordの値を代入する*/
+    searchWord == inputWord ? pageCount++ : ($(".lists").empty(),inputWord = searchWord,pageCount = 1);
 //settingsに設定情報などを格納
     const settings = {
       "url": `https://ci.nii.ac.jp/books/opensearch/search?title=${searchWord}&format=json&p=${pageCount}&count=20`,
@@ -32,23 +29,25 @@ $(function(){
     });
   });
 
-//関数名displayResultに仮引数CiNiを渡し
-  function displayResult(CiNii) {
+//関数名displayResultに仮引数ciNiiを渡し
+  function displayResult(ciNii) {
 //messageクラスを持つ要素を削除する
     $(".message").remove();
-//CiNii[0]['items']がundefinedでなければ
-    CiNii[0]['items'] !== undefined ?
+//ciNii[0]['items']がundefinedでなければ
+    ciNii[0].items !== undefined ?
 //ajaxから取得したアイテムの数だけループさせる
-    $.each(CiNii[0]['items'],function(i){
+    $.each(ciNii[0].items,function(i){
 //listsクラスの子要素の先頭にタイトル、作者、出版社、と書籍情報をクリックすると詳細に飛べるリンクの要素を追加
-      $(".lists").prepend('<li class="lists-item"><div class="list-inner"><p>タイトル：' + CiNii[0]['items'][i]['title'] + '</p><p>作者：' + CiNii[0]['items'][i]['dc:creator'] + '</p><p>出版社：' + CiNii[0]['items'][i]['dc:publisher'] + '</p><a href = "' + CiNii[0]['items'][i]['@id'] + '"target="_blank">書籍情報</a></div></li>')
+      $(".lists").prepend('<li class="lists-item"><div class="list-inner"><p>タイトル：' + ciNii[0].items[i].title + '</p><p>作者：' + ciNii[0].items[i]['dc:creator'] + '</p><p>出版社：' + ciNii[0].items[i]['dc:publisher'] + '</p><a href = "' + ciNii[0].items[i]['@id'] + '"target="_blank">書籍情報</a></div></li>')
     }):
 //undifinedならばlistsクラスを持つ要素の前にテキストを追加する。
     $(".lists").before('<div class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索してください。</div>');
   };
 
-//関数displayErrorを定義する
-  function displayError(){
+//関数名displayErrorに仮引数jpXHRを渡し
+  function displayError(jpXHR){
+//jpXHR.statusが404ならlistsクラスを持つ要素の前にテキストを使いする。404でなく500なら別のテキストを追加する。さらに404でも500でもなければ原因不明のエラーテキストを追加する。
+    jpXHR.status === 404 ? $(".lists").before('<div class="message">ページが存在しません。</div>') : jpXHR.status == 500 ? $(".lists").before('<div class="message">通信先のページで内部エラーが発生しています。</div>') : $(".lists").before('<div class="message">通信エラーが発生しています。</div>');
 //listsクラスを持つ要素の中を空にする
     $(".lists").empty();
 //messageクラスを持つ要素を削除する
@@ -61,8 +60,8 @@ $(function(){
   $(".reset-btn").on("click", function() {
 //ページカウントを1にする
     pageCount = 1;
-//textを空にする
-    text = "";
+//inputWordを空にする
+    inputWord = "";
 //listsクラスを持つ要素の中を空にする
     $(".lists").empty();
 //messageクラスを持つ要素を削除する
